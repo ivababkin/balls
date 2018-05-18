@@ -85,38 +85,6 @@ double ball::angleofdir(double vx, double vy)//костыльно считает
     return 0;
 }
 
-/*void ball::getcentrevector(ball otherball, double &axisx, double &axisy)
-{
-    double xx = otherball.getx() - this->getx();
-    double yy = otherball.gety() - this->gety();
-
-    axisx = xx / sqrt((xx * xx + yy * yy));
-    axisy = yy / sqrt((xx * xx + yy * yy));
-}*/
-
-/*void ball::hitbyballvector( ball* that )
-{
-    double axisx, axisy;
-    this->getcentrevector(*that, axisx, axisy);
-    double v1x = axisx * this->getspeedx();
-    double v1y = axisy * this->getspeedy();
-    double v2x = axisx * this->getspeedx();
-    double v2y = axisy * this->getspeedy();
-    double m1 = this->getmass();
-    double m2 = that->getmass();
-
-    double v1xnew = (2 * v2x * m2 - m2 * v1x + v1x * m1)/(m2 + m1);
-    double v2xnew = (2 * v1x * m1 - m1 * v2x + v2x * m2)/(m2 + m1);
-
-    this->setspeed(sqrt(v1xnew * v1xnew + v1y * v1y));
-    that->setspeed(sqrt(v2xnew * v2xnew + v2y * v2y));
-
-    double angle = this->getcentreangle(*that);
-
-    this->setdir(atan(v1y/v1xnew) + angle);
-    that->setdir(atan(v2y/v2xnew) + angle);
-}*/
-
 bool ball::areballsnearing( ball * that) const//сближаются ли шары
 {
     double r1 = (sqrt(pow((that->getx() - this->getx()), 2) + pow((that->gety() - this->gety()), 2)));
@@ -170,16 +138,6 @@ void ball::hitbyball( ball* that )
         this->setspeed(sqrt(v1xnew * v1xnew + v1y * v1y));
         that->setspeed(sqrt(v2xnew * v2xnew + v2y * v2y));
         std::cout << "========="<< std::endl;
-
-        double dx1 = 3 * this->getspeed() * cos(this->getdir());
-        double dy1 = 3 * this->getspeed() * sin(this->getdir());
-        this->setx(this->getx() + dx1);
-        this->sety(this->gety() + dy1);
-
-        double dx2 = that->getspeed() * cos(that->getdir());
-        double dy2 = that->getspeed() * sin(that->getdir());
-        this->setx(that->getx() + dx2);
-        this->sety(that->gety() + dy2);
     }
 };
 
@@ -246,20 +204,16 @@ void ball::update(ball * ballmain, wall * bottom_wall)
 
     this->hasitbeenhitbywall(bottom_wall);
 
-    /*ball* pball = this->hasitbeenhitbyball(ballmain);
-    if (pball != NULL)// && (this->getradius() == 0.11))
+    ball* pball = this->hasitbeenhitbyball(ballmain);
+    if (pball != NULL)
     {
         if (this->areballsnearing(pball) == true)
         {
-            //this->hitbyball(pball);
+            this->hitbyball(pball);
         }
-    }*/
-
-    if (this == ballmain)
-    {
-        //std::cout<<this->distance(*(this->getlink()))<< " = distance"<<std::endl;
-        this->gravity(ballmain);
     }
+
+    this->gravity(ballmain);
 
 
 }

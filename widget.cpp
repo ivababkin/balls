@@ -6,20 +6,15 @@ Widget::Widget(QGLWidget *parent)
 {
     resize(500,500);
     //ball(double x, double y, double newspeed, double direction, ball* pnextball, double radius, int newmass);
-    //ball3 = new ball(0, 0, 0.01, 3, NULL, 0.1, 1);
-    //ball2 = new ball(-0.5, 0, 0.01, 2, ball3, 0.1, 1);
-    ball1 = new ball(0.5, 0.5, 0, 0, NULL, 0.04, 1);
-    ballmain = new ball(0.2, 0.3, 0.001, 0, ball1, 0.02, 1);
+    ball3 = new ball(0.8, 0.8, 0.0, 3, NULL, 0.05, 1);
+    ball2 = new ball(0.6, 0.6, 0.0, 2, ball3, 0.05, 1);
+    ball1 = new ball(0.5, 0.5, 0, 0, ball2, 0.05, 1);
+    ballmain = new ball(0.2, 0.52, 0.0, 0, ball1, 0.05, 1);
 
     left_wall = new wall(0.1, 1, 0, 0, 'l', NULL);
     right_wall = new wall(1, 1, 0.9, 0, 'r', left_wall);
     top_wall = new wall(1, 1, 0, 0.9, 't', right_wall);
     bottom_wall = new wall(1, 0.1, 0, 0, 'b', top_wall);
-
-    /*left_wall = new wall(-0.8, 0.9, -0.9, -0.9, 'l', NULL);
-    right_wall = new wall(0.9, 0.9, 0.8, -0.9, 'r', left_wall);
-    top_wall = new wall(0.9, 0.9, -0.9, 0.8, 't', right_wall);
-    bottom_wall = new wall(0.9, -0.8, -0.9, -0.9, 'b', top_wall);*/
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGL()));
